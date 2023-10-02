@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="16dp"
     android:paddingHorizontal="16dp"
+    android:paddingTop="16dp"
     android:paddingBottom="48dp"
     tools:context=".presentation.profile.ProfileFragment">
 
@@ -28,5 +28,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_dialog" />
+
+    <RadioGroup
+        android:id="@+id/rg_language"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/sw_dark_mode">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Language" />
+
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_lang_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bahasa Indonesia" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_lang_en"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="English" />
+    </RadioGroup>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
