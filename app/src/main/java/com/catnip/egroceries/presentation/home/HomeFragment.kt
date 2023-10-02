@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.catnip.egroceries.data.datasource.dummy.CategoryDataSource
-import com.catnip.egroceries.data.datasource.dummy.CategoryDataSourceImpl
-import com.catnip.egroceries.data.datasource.dummy.ProductDataSource
-import com.catnip.egroceries.data.datasource.dummy.ProductDataSourceImpl
+import com.catnip.egroceries.data.dummy.CategoryDataSource
+import com.catnip.egroceries.data.dummy.CategoryDataSourceImpl
+import com.catnip.egroceries.data.dummy.DummyProductDataSourceImpl
 import com.catnip.egroceries.data.repository.ProductRepository
 import com.catnip.egroceries.data.repository.ProductRepositoryImpl
 import com.catnip.egroceries.databinding.FragmentHomeBinding
@@ -33,7 +32,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun openSettingDialog() {
-        SettingsDialogFragment().show(childFragmentManager,null)
+        SettingsDialogFragment().show(childFragmentManager, null)
     }
 
     private fun navigateToDetail(item: Product) {
@@ -42,7 +41,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModels {
         val cds: CategoryDataSource = CategoryDataSourceImpl()
-        val pds: ProductDataSource = ProductDataSourceImpl()
+        val pds: DummyProductDataSourceImpl = DummyProductDataSourceImpl()
         val repo: ProductRepository = ProductRepositoryImpl(cds, pds)
         GenericViewModelFactory.create(HomeViewModel(repo))
     }
@@ -52,9 +51,10 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater,container,false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupList()
