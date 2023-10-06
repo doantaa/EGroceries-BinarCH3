@@ -81,7 +81,34 @@ class CartFragment : Fragment() {
     }
 
     private fun observeData() {
+        viewModel.cartList.observe(viewLifecycleOwner){result ->
+            result.proceedWhen(
+                doOnSuccess = {
+                    binding.rvCart.isVisible = true
+                    result.payload?.let {(carts, totalPrice) ->
+                        adapter.submitData(carts)
+                        binding.tvTotalPrice.text = totalPrice.toCurrencyFormat()
 
+                    }
+                    binding.layoutState.root.isVisible = false
+                    binding.layoutState.pbLoading.isVisible = false
+
+                },
+                doOnError = {err ->
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.tvError.isVisible = true
+                    binding.layoutState.pbLoading.isVisible = false
+                    binding.rvCart.isVisible = false
+                },
+                doOnLoading = {
+                    binding.layoutState.root.isVisible = true
+                    binding.layoutState.pbLoading.isVisible = true
+                    binding.rvCart.isVisible = false
+                    binding.layoutState.tvError.isVisible = false
+
+                }
+            )
+        }
     }
 
 }

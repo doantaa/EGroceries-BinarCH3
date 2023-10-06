@@ -14,6 +14,6 @@ Written with love by Muhammad Hermas Yuda Pamungkas
 Github : https://github.com/hermasyp
  **/
 class CartViewModel(private val repo: CartRepository) : ViewModel() {
-
+    val cartList = repo.getUserCartData().asLiveData(Dispatchers.IO)
 
 }

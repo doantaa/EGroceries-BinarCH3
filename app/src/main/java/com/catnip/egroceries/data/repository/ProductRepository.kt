@@ -20,6 +20,7 @@ Github : https://github.com/hermasyp
  **/
 interface ProductRepository {
     fun getCategories(): List<Category>
+    fun getProducts(): Flow<ResultWrapper<List<Product>>>
 }
 
 class ProductRepositoryImpl(
@@ -29,6 +30,15 @@ class ProductRepositoryImpl(
 
     override fun getCategories(): List<Category> {
         return dummyCategoryDataSource.getProductCategory()
+    }
+
+    override fun getProducts(): Flow<ResultWrapper<List<Product>>> {
+        return productDataSource.getAllProducts().map {
+            proceed { it.toProductList() }
+        }.onStart {
+            emit(ResultWrapper.Loading())
+            delay(2000)
+        }
     }
 
 }
