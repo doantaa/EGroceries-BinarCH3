@@ -10,6 +10,8 @@ import coil.load
 import com.catnip.egroceries.data.local.database.AppDatabase
 import com.catnip.egroceries.data.local.database.datasource.CartDataSource
 import com.catnip.egroceries.data.local.database.datasource.CartDatabaseDataSource
+import com.catnip.egroceries.data.network.api.datasource.EGroceriesApiDataSource
+import com.catnip.egroceries.data.network.api.service.EGroceriesApiService
 import com.catnip.egroceries.data.repository.CartRepository
 import com.catnip.egroceries.data.repository.CartRepositoryImpl
 import com.catnip.egroceries.databinding.ActivityDetailProductBinding
@@ -17,6 +19,7 @@ import com.catnip.egroceries.model.Product
 import com.catnip.egroceries.utils.GenericViewModelFactory
 import com.catnip.egroceries.utils.proceedWhen
 import com.catnip.egroceries.utils.toCurrencyFormat
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 
 class DetailProductActivity : AppCompatActivity() {
 
@@ -28,7 +31,10 @@ class DetailProductActivity : AppCompatActivity() {
         val database = AppDatabase.getInstance(this)
         val cartDao = database.cartDao()
         val cartDataSource: CartDataSource = CartDatabaseDataSource(cartDao)
-        val repo: CartRepository = CartRepositoryImpl(cartDataSource)
+        val chuckerInterceptor = ChuckerInterceptor(this.applicationContext)
+        val service = EGroceriesApiService.invoke(chuckerInterceptor)
+        val apiDataSource = EGroceriesApiDataSource(service)
+        val repo: CartRepository = CartRepositoryImpl(cartDataSource,apiDataSource)
         GenericViewModelFactory.create(
             DetailProductViewModel(intent?.extras, repo)
         )

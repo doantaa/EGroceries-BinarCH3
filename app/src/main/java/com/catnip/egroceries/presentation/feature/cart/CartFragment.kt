@@ -2,21 +2,22 @@ package com.catnip.egroceries.presentation.feature.cart
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.catnip.egroceries.R
 import com.catnip.egroceries.data.local.database.AppDatabase
 import com.catnip.egroceries.data.local.database.datasource.CartDataSource
 import com.catnip.egroceries.data.local.database.datasource.CartDatabaseDataSource
+import com.catnip.egroceries.data.network.api.datasource.EGroceriesApiDataSource
+import com.catnip.egroceries.data.network.api.service.EGroceriesApiService
 import com.catnip.egroceries.data.repository.CartRepository
 import com.catnip.egroceries.data.repository.CartRepositoryImpl
 import com.catnip.egroceries.databinding.FragmentCartBinding
 import com.catnip.egroceries.model.Cart
-import com.catnip.egroceries.model.CartProduct
 import com.catnip.egroceries.presentation.common.adapter.CartListAdapter
 import com.catnip.egroceries.presentation.common.adapter.CartListener
 import com.catnip.egroceries.presentation.feature.checkout.CheckoutActivity
@@ -24,6 +25,7 @@ import com.catnip.egroceries.utils.GenericViewModelFactory
 import com.catnip.egroceries.utils.hideKeyboard
 import com.catnip.egroceries.utils.proceedWhen
 import com.catnip.egroceries.utils.toCurrencyFormat
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 
 class CartFragment : Fragment() {
 
@@ -33,7 +35,10 @@ class CartFragment : Fragment() {
         val database = AppDatabase.getInstance(requireContext())
         val cartDao = database.cartDao()
         val cartDataSource: CartDataSource = CartDatabaseDataSource(cartDao)
-        val repo: CartRepository = CartRepositoryImpl(cartDataSource)
+        val chuckerInterceptor = ChuckerInterceptor(requireContext().applicationContext)
+        val service = EGroceriesApiService.invoke(chuckerInterceptor)
+        val apiDataSource = EGroceriesApiDataSource(service)
+        val repo: CartRepository = CartRepositoryImpl(cartDataSource, apiDataSource)
         GenericViewModelFactory.create(CartViewModel(repo))
     }
 
@@ -75,7 +80,7 @@ class CartFragment : Fragment() {
 
     private fun setClickListener() {
         binding.btnCheckout.setOnClickListener {
-            context?.startActivity(Intent(requireContext(),CheckoutActivity::class.java))
+            context?.startActivity(Intent(requireContext(), CheckoutActivity::class.java))
         }
     }
 

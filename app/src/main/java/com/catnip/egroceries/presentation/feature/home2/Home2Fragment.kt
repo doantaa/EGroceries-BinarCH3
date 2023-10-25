@@ -1,42 +1,42 @@
 package com.catnip.egroceries.presentation.feature.home2
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.catnip.egroceries.R
 import com.catnip.egroceries.data.network.api.datasource.EGroceriesApiDataSource
 import com.catnip.egroceries.data.network.api.service.EGroceriesApiService
 import com.catnip.egroceries.data.repository.ProductRepository
 import com.catnip.egroceries.data.repository.ProductRepositoryImpl
 import com.catnip.egroceries.databinding.FragmentHome2Binding
-import com.catnip.egroceries.presentation.feature.home.HomeViewModel
 import com.catnip.egroceries.presentation.feature.home.adapter.subadapter.CategoryListAdapter
 import com.catnip.egroceries.presentation.feature.home.adapter.subadapter.ProductListAdapter
 import com.catnip.egroceries.utils.GenericViewModelFactory
 import com.catnip.egroceries.utils.proceedWhen
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 
 class Home2Fragment : Fragment() {
 
     private lateinit var binding: FragmentHome2Binding
 
-    private val categoryAdapter : CategoryListAdapter by lazy {
-        CategoryListAdapter{
+    private val categoryAdapter: CategoryListAdapter by lazy {
+        CategoryListAdapter {
             viewModel.getProducts(it.slug)
         }
     }
 
-    private val productAdapter : ProductListAdapter by lazy {
-        ProductListAdapter{
+    private val productAdapter: ProductListAdapter by lazy {
+        ProductListAdapter {
 
         }
     }
 
-    private val viewModel : Home2ViewModel by viewModels {
-        val service = EGroceriesApiService.invoke()
+    private val viewModel: Home2ViewModel by viewModels {
+        val chuckerInterceptor = ChuckerInterceptor(requireContext().applicationContext)
+        val service = EGroceriesApiService.invoke(chuckerInterceptor)
         val dataSource = EGroceriesApiDataSource(service)
         val repo: ProductRepository =
             ProductRepositoryImpl(dataSource)
@@ -63,7 +63,7 @@ class Home2Fragment : Fragment() {
     }
 
     private fun observeData() {
-        viewModel.categories.observe(viewLifecycleOwner){
+        viewModel.categories.observe(viewLifecycleOwner) {
             it.proceedWhen(doOnSuccess = {
                 binding.layoutStateCategory.root.isVisible = false
                 binding.layoutStateCategory.pbLoading.isVisible = false
@@ -86,7 +86,7 @@ class Home2Fragment : Fragment() {
                 binding.rvCategory.isVisible = false
             })
         }
-        viewModel.products.observe(viewLifecycleOwner){
+        viewModel.products.observe(viewLifecycleOwner) {
             it.proceedWhen(doOnSuccess = {
                 binding.layoutStateProduct.root.isVisible = false
                 binding.layoutStateProduct.pbLoading.isVisible = false
