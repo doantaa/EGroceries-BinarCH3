@@ -95,4 +95,7 @@ dependencies {
 
     debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
     releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
+
+    //Koin
+    implementation("io.insert-koin:koin-android:3.5.0")
 }
