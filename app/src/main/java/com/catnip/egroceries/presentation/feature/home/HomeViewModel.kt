@@ -47,7 +47,7 @@ class HomeViewModel(
             HomeSection.HeaderSection,
             HomeSection.BannerSection,
             HomeSection.CategoriesSection(categoryResult),
-            HomeSection.ProductsSection(productResult),
+            HomeSection.ProductsSection(productResult)
         )
 
     fun setSelectedCategory(category: String? = null) {

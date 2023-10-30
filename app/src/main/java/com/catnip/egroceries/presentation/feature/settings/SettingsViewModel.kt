@@ -9,12 +9,12 @@ import kotlinx.coroutines.launch
 Written with love by Muhammad Hermas Yuda Pamungkas
 Github : https://github.com/hermasyp
  **/
-class SettingsViewModel(private val userPreferenceDataSource: UserPreferenceDataSource) : ViewModel() {
+class SettingsViewModel(private val userPreferenceDataSource: UserPreferenceDataSource) :
+    ViewModel() {
 
     fun setUserDarkModePref(isUsingDarkMode: Boolean) {
         viewModelScope.launch {
             userPreferenceDataSource.setUserDarkModePref(isUsingDarkMode)
         }
     }
-
 }

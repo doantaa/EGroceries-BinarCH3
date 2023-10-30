@@ -19,7 +19,7 @@ class App : Application() {
         initKoin()
     }
 
-    private fun initKoin(){
+    private fun initKoin() {
         startKoin {
             // Log Koin into Android logger
             androidLogger()
@@ -30,4 +30,3 @@ class App : Application() {
         }
     }
 }
-

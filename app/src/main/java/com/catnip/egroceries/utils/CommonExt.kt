@@ -24,12 +24,7 @@ val Number.toPx
 
 fun AppCompatEditText.doneEditing(doneBlock: () -> Unit) {
     this.setOnEditorActionListener { _, actionId, event ->
-        if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-            actionId == EditorInfo.IME_ACTION_DONE ||
-            event != null &&
-            event.action == KeyEvent.ACTION_DOWN &&
-            event.keyCode == KeyEvent.KEYCODE_ENTER
-        ) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE || event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
             if (event == null || !event.isShiftPressed) {
                 // the user is done typing.
                 doneBlock.invoke()

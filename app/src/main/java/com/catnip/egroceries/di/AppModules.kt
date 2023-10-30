@@ -20,6 +20,7 @@ import com.catnip.egroceries.utils.PreferenceDataStoreHelper
 import com.catnip.egroceries.utils.PreferenceDataStoreHelperImpl
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -51,9 +52,8 @@ object AppModules {
 
     private val viewModelModule = module {
         // Import bagian viewmodelnya
-        viewModelOf(::HomeViewModel)
+        viewModel { HomeViewModel(get(), get()) }
         viewModelOf(::CartViewModel)
-
     }
 
     private val utilsModule = module {
@@ -68,6 +68,4 @@ object AppModules {
         viewModelModule,
         utilsModule
     )
-
-
 }

@@ -17,7 +17,6 @@ import com.catnip.egroceries.utils.AssetWrapper
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
@@ -30,11 +29,11 @@ class HomeFragment : Fragment() {
         HomeAdapter(onProductClicked = {
             navigateToDetail(it)
         }, onSettingsClicked = {
-            Toast.makeText(requireContext(), assetWrapper.getString(R.string.text_toast), Toast.LENGTH_SHORT).show()
-            openSettingDialog()
-        }, onCategoriesClicked = {
-            viewModel.setSelectedCategory(it.slug)
-        })
+                Toast.makeText(requireContext(), assetWrapper.getString(R.string.text_toast), Toast.LENGTH_SHORT).show()
+                openSettingDialog()
+            }, onCategoriesClicked = {
+                viewModel.setSelectedCategory(it.slug)
+            })
     }
 
     private fun openSettingDialog() {
